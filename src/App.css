@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+
+html, body,#root, .App {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Verdana, sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
