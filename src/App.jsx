@@ -1,32 +1,50 @@
 import axios from "axios";
 import "./App.css";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
-  async function fetchDarthVaderData() {
-    await axios
-      .get("https://swapi.dev/api/people/4")
-      .then((result) => {
-        console.log(result.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  async function fetchFranceData() {
-    await axios
-      .get("https://restcountries.com/v3.1/name/france")
-      .then((result) => {
-        console.log(result.data[0].name.common);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  const [state, setState] = useState({});
 
-  fetchDarthVaderData();
-  fetchFranceData();
+  useEffect(() => {
+    function fetchStuff() {
+      axios
+        .get("https://swapi.dev/api/people/4")
+        .then((result) => {
+          console.log(result);
+          setState((state) => ({ ...state, vader: "LOGGED ON CONSOLE!" }));
+        })
+        .catch((error) => {
+          console.log(error);
+          setState((state) => ({ ...state, vader: "<ERROR>" }));
+          return null;
+        });
 
-  return <div className="App"></div>;
+      axios
+        .get("https://restcountries.com/v3.1/name/france")
+        .then((result) => {
+          return result.data[0].name.common;
+        })
+        .then((franceName) => {
+          console.log(franceName);
+          setState((state) => ({ ...state, france: "LOGGED ON CONSOLE!" }));
+        })
+        .catch((error) => {
+          console.log(error);
+          setState((state) => ({ ...state, france: "<ERROR>" }));
+          return null;
+        });
+    }
+
+    fetchStuff();
+  }, []);
+
+  return (
+    <div className="App">
+      <h1>Fetch 1 Result: {state?.vader ? state.vader : "Fetching..."}</h1>
+      <h1>Fetch 2 Result: {state?.france ? state.france : "Fetching...."}</h1>
+    </div>
+  );
 }
 
 export default App;
