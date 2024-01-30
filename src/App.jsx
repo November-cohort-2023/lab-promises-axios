@@ -11,7 +11,7 @@ function App() {
       axios
         .get("https://swapi.dev/api/people/4")
         .then((result) => {
-          console.log(result);
+          console.log(result.data);
           setState((state) => ({ ...state, vader: "LOGGED ON CONSOLE!" }));
         })
         .catch((error) => {
@@ -34,6 +34,20 @@ function App() {
           setState((state) => ({ ...state, france: "<ERROR>" }));
           return null;
         });
+
+      axios
+        .get("https://restcountries.com/v3.1/all")
+        .then((result) => result.data.slice(0, 10))
+        .then((countries) => {
+          console.log(countries);
+          setState((state) => ({ ...state, countries: "LOGGED ON CONSOLE!" }));
+          return null;
+        })
+        .catch((error) => {
+          console.log(error);
+          setState((state) => ({ ...state, countries: "<ERROR>" }));
+          return null;
+        });
     }
 
     fetchStuff();
@@ -41,8 +55,14 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Fetch 1 Result: {state?.vader ? state.vader : "Fetching..."}</h1>
-      <h1>Fetch 2 Result: {state?.france ? state.france : "Fetching...."}</h1>
+      <h1>Fetch Vader Result: {state?.vader ? state.vader : "Fetching..."}</h1>
+      <h1>
+        Fetch France Result: {state?.france ? state.france : "Fetching...."}
+      </h1>
+      <h1>
+        Fetch Countries Result:{" "}
+        {state?.countries ? state.countries : "Fetching...."}
+      </h1>
     </div>
   );
 }
