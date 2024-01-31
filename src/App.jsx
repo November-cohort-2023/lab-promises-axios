@@ -35,7 +35,10 @@ async function promises(){
   catch(err){console.log(err)}
 }
 
+
 promises()
+
+console.log(`test`)
 
 function App() {
   return (
